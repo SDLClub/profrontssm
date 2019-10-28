@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ykx.dao.ext.OrderItemExtMapper">
+
+    <select id="slProAndOrd" parameterType="String" resultType="OrderItemAndProductDto"> <!--resultMap="Lianhe"-->
+        select p.product_id,p.pro_name,p.pro_img,p.pro_price,
+                o.order_number,o.pro_number,o.order_sum
+        from product p,orderitem o
+        where p.product_id=o.product_id and o.orderCode = #{orderCode}
+    </select>
+
+</mapper>

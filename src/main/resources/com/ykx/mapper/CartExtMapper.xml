@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ykx.dao.ext.CartExtMapper">
+
+    <resultMap id="cartItemDTOMap" type="CartItemDTO">
+        <!--<id column="cart_id" jdbcType="INTEGER" property="cartId" />-->
+        <result column="product_id" jdbcType="INTEGER" property="productId"/>
+        <result column="pro_number" jdbcType="INTEGER" property="proNumber"/>
+        <association property="product" javaType="Product">
+            <id column="product_id" jdbcType="INTEGER" property="productId"/>
+            <result column="pro_name" jdbcType="VARCHAR" property="proName"/>
+            <result column="pro_price" jdbcType="DECIMAL" property="proPrice"/>
+            <result column="pro_img" jdbcType="VARCHAR" property="proImg"/>
+        </association>
+    </resultMap>
+    <select id="qryCartList" parameterType="Integer" resultMap="cartItemDTOMap">
+        select p.product_id,c.pro_number,p.pro_img,p.pro_price,p.pro_name,c.user_id
+        from cart c,product p
+        where p.product_id=c.product_id and user_id=#{userid}
+    </select>
+
+
+    <delete id="delCartOp" >
+    delete from cart where user_id=#{user_id} and product_id=#{product_id}
+    </delete>
+
+
+    <!--Product表-->
+   <select id="qryProductByCategoryId" parameterType="Integer" resultType="Product">
+        SELECT product_id productId,pro_name proName,pro_price proPrice,pro_img proImg,pro_msg proMsg
+        FROM product
+        WHERE product_id=#{productId}
+    </select>
+
+</mapper>
